@@ -17,6 +17,7 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 
 @RestController
+@RequestMapping(value = "/api/")
 public class ReactiveController {
     @Autowired
     private InvoiceService invoiceService;
@@ -44,9 +45,9 @@ public class ReactiveController {
 
 
     @PostMapping(path="/createInvoice")
-    public ResponseEntity<String> createInvoice(@RequestHeader String name, @RequestHeader String number, @RequestHeader double amount){
+    public ResponseEntity<String> createInvoice(@RequestHeader String name, @RequestHeader String invoiceNumber, @RequestHeader double amount){
        //try {
-           invoiceService.saveInvoice(name, number, amount);
+           invoiceService.saveInvoice(name, invoiceNumber, amount);
            //int x=  4/0;
            return new ResponseEntity<>("Invoice Created",HttpStatus.CREATED);
       // }catch(Exception ex){

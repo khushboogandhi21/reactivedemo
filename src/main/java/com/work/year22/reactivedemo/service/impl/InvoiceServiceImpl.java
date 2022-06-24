@@ -26,10 +26,10 @@ public class InvoiceServiceImpl implements InvoiceService {
     InvoiceReactiveRepository invoiceReactiveRepository;
 
     @Override
-    public void saveInvoice(String name, String number, double amount) {
+    public void saveInvoice(String name, String invoiceNumber, double amount) {
 
         int id = (int)(Math.random() * (100-1))+ 1;
-        Invoice inv = new Invoice(id , name,number,amount);
+        Invoice inv = new Invoice(id , name,invoiceNumber,amount);
         invoiceRepository.save(inv);
     }
 

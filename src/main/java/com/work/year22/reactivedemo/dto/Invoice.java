@@ -16,7 +16,7 @@ public class Invoice {
     private int id;
 
     private String name;
-    private String number;
+    private String invoiceNumber;
     private double amount;
 
 

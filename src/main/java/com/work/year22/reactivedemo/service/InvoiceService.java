@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface InvoiceService {
 
-    public void saveInvoice(String name, String number, double amount);
+    public void saveInvoice(String name, String invoiceNumber, double amount);
 
     public Mono<Invoice> getInvoiceById(int id);
 
