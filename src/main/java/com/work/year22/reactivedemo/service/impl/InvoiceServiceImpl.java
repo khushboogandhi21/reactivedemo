@@ -43,6 +43,10 @@ public class InvoiceServiceImpl implements InvoiceService {
         return invoiceReactiveRepository.findAll();
     }
 
+    /*You can use collectList() operator in Flux for this which gives a Mono of List.
+    FlatMapMany - This is a Mono operator which is used to transform a Mono object into a Flux object.
+I GUESS IF USING CRUD REPOSITORY and NOT ReactiveCrudRepository
+            userRepository.findAll().collectList().flatMapMany(Flux::just);*/
 
     private static void sleepExecution(int i) {
         try{

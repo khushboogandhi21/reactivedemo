@@ -5,9 +5,7 @@ import com.work.year22.reactivedemo.dto.Invoice;
 import com.work.year22.reactivedemo.service.InvoiceService;
 import com.work.year22.reactivedemo.service.impl.EmployeeServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -22,15 +20,17 @@ public class ReactiveController {
     @Autowired
     private InvoiceService invoiceService;
 
-    @GetMapping(value = "/getInvoiceById/{id}",produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public Mono<Invoice> getInvoiceById(@PathVariable int id){
+    @GetMapping(value = "/invoices/{id}",produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public Mono<Invoice> getInvoiceById(@PathVariable int id, @RequestHeader HttpHeaders headers){
+        //, @RequestHeader HttpHeaders headers
+        System.out.println("Headers()=" + headers.get("API_KEY"));
 
         Mono<Invoice> monoInv = invoiceService.getInvoiceById(id);
        // return new ResponseEntity<Mono<Optional<Invoice>>>(monoInv, HttpStatus.OK);
         return monoInv;
     }
 
-    @GetMapping(value = "/getAllInvoices",produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    @GetMapping(value = "/invoices",produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<Invoice> getAllInvoices(){
 
         Flux<Invoice> fluxInv = invoiceService.getAllInvoices();
@@ -44,7 +44,7 @@ public class ReactiveController {
     }
 
 
-    @PostMapping(path="/createInvoice")
+    @PostMapping(path="/invoices")
     public ResponseEntity<String> createInvoice(@RequestHeader String name, @RequestHeader String invoiceNumber, @RequestHeader double amount){
        //try {
            invoiceService.saveInvoice(name, invoiceNumber, amount);
@@ -69,7 +69,7 @@ public class ReactiveController {
       // }
     }
 
-    @GetMapping(path = "/getTraditionalOutput",produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/traditionaloutput",produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Integer> getTraditionalOutput(){
         List<Integer> listOut =null;
         try {
@@ -80,7 +80,7 @@ public class ReactiveController {
         return listOut;
     }
 
-    @GetMapping(path = "/getTraditionalOutputByIdAndName/{id}/{name}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/traditionaloutput/{id}/{name}",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity getTraditionalOutputByIdAndName(@PathVariable int id,@PathVariable String name){
         List<Invoice> invoiceList =null;
         try {
@@ -99,7 +99,7 @@ public class ReactiveController {
      * Works only in browser not in postman as async
      * @return
      */
-    @GetMapping(path = "/getReactiveOutput", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    @GetMapping(path = "/reactiveoutput", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<Integer> getReactiveOutput(){  //Flux<String>
         Flux<Integer> listOut = null;
         try {
